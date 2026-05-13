@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "simple-notes",
+    "name": "Simple Notes",
     "slug": "simple-notes",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,9 +8,11 @@
     "scheme": "simplenotes",
     "userInterfaceStyle": "automatic",
     "ios": {
+      "bundleIdentifier": "com.santtu.simplenotes",
       "icon": "./assets/expo.icon"
     },
     "android": {
+      "package": "com.santtu.simplenotes",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -34,11 +36,12 @@
             "imageWidth": 76
           }
         }
-      ]
+      ],
+      "expo-sqlite",
+      "expo-local-authentication"
     ],
     "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
+      "typedRoutes": false
     }
   }
 }

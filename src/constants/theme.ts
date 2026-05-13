@@ -1,65 +1,72 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
+import type { ColorSchemeName } from 'react-native';
 
-import '@/global.css';
-
-import { Platform } from 'react-native';
+import type { NoteColor } from '@/types/notes';
 
 export const Colors = {
   light: {
-    text: '#000000',
-    background: '#ffffff',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
+    background: '#F7F5EF',
+    surface: '#FFFDF7',
+    elevated: '#FFFFFF',
+    text: '#202124',
+    textMuted: '#6C6258',
+    border: '#DED8CC',
+    primary: '#2E7D68',
+    primarySoft: '#DDEFE8',
+    primaryText: '#FFFFFF',
+    danger: '#B3261E',
+    dangerSoft: '#F9DEDC',
+    input: '#FFFFFF',
+    shadow: '#000000',
   },
   dark: {
-    text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
+    background: '#151613',
+    surface: '#1E201C',
+    elevated: '#272922',
+    text: '#F3F0E8',
+    textMuted: '#BDB6A8',
+    border: '#3B3E35',
+    primary: '#75C7AC',
+    primarySoft: '#173F35',
+    primaryText: '#09241D',
+    danger: '#F2B8B5',
+    dangerSoft: '#601410',
+    input: '#22251F',
+    shadow: '#000000',
   },
 } as const;
 
-export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
-
-export const Fonts = Platform.select({
-  ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
-    sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
-    serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
-    rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
-    mono: 'ui-monospace',
-  },
-  default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
-    mono: 'monospace',
-  },
-  web: {
-    sans: 'var(--font-display)',
-    serif: 'var(--font-serif)',
-    rounded: 'var(--font-rounded)',
-    mono: 'var(--font-mono)',
-  },
-});
+export const NotePalette: Record<
+  NoteColor,
+  { light: string; dark: string; border: string; label: string }
+> = {
+  default: { light: '#FFFDF7', dark: '#1E201C', border: '#DED8CC', label: 'Plain' },
+  sage: { light: '#E5F1E3', dark: '#1C3327', border: '#A7C5A4', label: 'Sage' },
+  sky: { light: '#E0EEF8', dark: '#17324A', border: '#A0C3DD', label: 'Sky' },
+  amber: { light: '#FFF0C2', dark: '#3D2F12', border: '#E4C469', label: 'Amber' },
+  coral: { light: '#FFE0D8', dark: '#4A211C', border: '#E3A093', label: 'Coral' },
+  grape: { light: '#ECE2F4', dark: '#332342', border: '#BCA4D0', label: 'Grape' },
+  slate: { light: '#E7E9EA', dark: '#293034', border: '#BAC1C4', label: 'Slate' },
+};
 
 export const Spacing = {
-  half: 2,
   one: 4,
   two: 8,
-  three: 16,
-  four: 24,
-  five: 32,
-  six: 64,
+  three: 12,
+  four: 16,
+  five: 20,
+  six: 24,
+  eight: 32,
 } as const;
 
-export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
-export const MaxContentWidth = 800;
+export const Radius = {
+  small: 6,
+  medium: 8,
+  large: 12,
+  pill: 999,
+} as const;
+
+export const MaxContentWidth = 840;
+
+export function getTheme(scheme: ColorSchemeName) {
+  return scheme === 'dark' ? Colors.dark : Colors.light;
+}

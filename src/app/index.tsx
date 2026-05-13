@@ -1,98 +1,204 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { router } from 'expo-router';
+import React, { useMemo, useState } from 'react';
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { EmptyState } from '@/components/EmptyState';
+import { FilterChip } from '@/components/FilterChip';
+import { IconButton } from '@/components/IconButton';
+import { NoteCard } from '@/components/NoteCard';
+import { Screen } from '@/components/Screen';
+import { Radius, Spacing } from '@/constants/theme';
+import { filterNotes } from '@/domain/noteFilters';
+import { useTheme } from '@/hooks/use-theme';
+import { useNotes } from '@/providers/NotesProvider';
 
 export default function HomeScreen() {
+  const theme = useTheme();
+  const { notes, labels, settings, togglePinned, archiveNote, trashNote } = useNotes();
+  const [labelId, setLabelId] = useState<string | undefined>();
+  const [pinnedOnly, setPinnedOnly] = useState(false);
+
+  const visibleNotes = useMemo(
+    () => filterNotes(notes, { status: 'active', labelId, pinnedOnly }),
+    [labelId, notes, pinnedOnly],
+  );
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
+    <Screen padded={false}>
+      <View style={styles.header}>
+        <View>
+          <Text style={[styles.eyebrow, { color: theme.textMuted }]}>Local notebook</Text>
+          <Text style={[styles.title, { color: theme.text }]}>Simple Notes</Text>
+        </View>
+        <View style={styles.headerActions}>
+          <IconButton name="search" label="Search notes" onPress={() => router.push('/search')} />
+          <IconButton
+            name="archive-outline"
+            label="Archive"
+            onPress={() => router.push('/archive')}
           />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
+          <IconButton
+            name="settings-outline"
+            label="Settings"
+            onPress={() => router.push('/settings')}
           />
-        </ThemedView>
+        </View>
+      </View>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      <View style={styles.chipArea}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.chips}
+        >
+          <FilterChip
+            label="All"
+            selected={!labelId && !pinnedOnly}
+            onPress={() => {
+              setLabelId(undefined);
+              setPinnedOnly(false);
+            }}
+          />
+          <FilterChip
+            label="Pinned"
+            selected={pinnedOnly}
+            onPress={() => {
+              setPinnedOnly((current) => !current);
+              setLabelId(undefined);
+            }}
+          />
+          {labels.map((label) => (
+            <FilterChip
+              key={label.id}
+              label={label.name}
+              selected={label.id === labelId}
+              onPress={() => {
+                setLabelId((current) => (current === label.id ? undefined : label.id));
+                setPinnedOnly(false);
+              }}
+            />
+          ))}
+        </ScrollView>
+      </View>
+
+      <FlatList
+        key={settings.gridView ? 'grid' : 'list'}
+        data={visibleNotes}
+        numColumns={settings.gridView ? 2 : 1}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={[
+          styles.listContent,
+          visibleNotes.length === 0 && styles.emptyListContent,
+        ]}
+        columnWrapperStyle={settings.gridView ? styles.gridRow : undefined}
+        renderItem={({ item }) => (
+          <View style={settings.gridView ? styles.gridItem : styles.listItem}>
+            <NoteCard
+              note={item}
+              compact={settings.gridView}
+              onPress={() => router.push({ pathname: '/editor', params: { id: item.id } })}
+              onPin={() => togglePinned(item.id)}
+              onArchive={() => archiveNote(item.id)}
+              onTrash={() => trashNote(item.id)}
+            />
+          </View>
+        )}
+        ListEmptyComponent={
+          <EmptyState
+            icon="document-text-outline"
+            title="No notes here"
+            body="Create a note or clear the current filter."
+          />
+        }
+      />
+
+      <IconButton
+        name="trash-outline"
+        label="Trash"
+        onPress={() => router.push('/trash')}
+        backgroundColor={theme.surface}
+        style={styles.trashButton}
+      />
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Create note"
+        onPress={() => router.push('/editor')}
+        style={({ pressed }) => [
+          styles.fab,
+          { backgroundColor: theme.primary, opacity: pressed ? 0.78 : 1 },
+        ]}
+      >
+        <Ionicons name="add" size={30} color={theme.primaryText} />
+      </Pressable>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
+  header: {
     paddingHorizontal: Spacing.four,
+    paddingTop: Spacing.four,
+    paddingBottom: Spacing.three,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
+  eyebrow: {
+    fontSize: 12,
+    fontWeight: '800',
     textTransform: 'uppercase',
   },
-  stepContainer: {
+  title: {
+    fontSize: 30,
+    lineHeight: 36,
+    fontWeight: '900',
+  },
+  headerActions: {
+    flexDirection: 'row',
+    gap: Spacing.two,
+  },
+  chipArea: {
+    minHeight: 50,
+  },
+  chips: {
+    gap: Spacing.two,
+    paddingHorizontal: Spacing.four,
+    paddingBottom: Spacing.three,
+  },
+  listContent: {
+    paddingHorizontal: Spacing.four,
+    paddingBottom: 112,
     gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  },
+  emptyListContent: {
+    flexGrow: 1,
+  },
+  gridRow: {
+    gap: Spacing.three,
+  },
+  gridItem: {
+    flex: 1,
+    marginBottom: Spacing.three,
+  },
+  listItem: {
+    marginBottom: Spacing.three,
+  },
+  fab: {
+    position: 'absolute',
+    right: Spacing.four,
+    bottom: Spacing.four,
+    width: 64,
+    height: 64,
+    borderRadius: Radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+  },
+  trashButton: {
+    position: 'absolute',
+    left: Spacing.four,
+    bottom: Spacing.five,
   },
 });
