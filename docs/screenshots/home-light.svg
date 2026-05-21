@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="393" height="852" viewBox="0 0 393 852" role="img" aria-label="Simple Notes light mode home screen">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000000" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      text { font-family: Inter, Arial, Helvetica, sans-serif; dominant-baseline: text-before-edge; letter-spacing: 0; }
+      .muted { fill: #6C6258; }
+      .text { fill: #202124; }
+      .small { font-size: 12px; font-weight: 800; }
+      .body { font-size: 14px; font-weight: 500; }
+    </style>
+  </defs>
+  <rect width="393" height="852" fill="#F7F5EF"/>
+  <text x="24" y="10" font-size="13" font-weight="800" class="text">9:41</text>
+  <path d="M286 20c5-5 13-5 18 0M292 20c2-2 5-2 7 0" fill="none" stroke="#202124" stroke-width="1.8" stroke-linecap="round"/>
+  <rect x="306" y="12" width="2.5" height="10" rx="1.2" fill="#202124"/>
+  <rect x="311" y="9" width="2.5" height="13" rx="1.2" fill="#202124"/>
+  <rect x="318" y="13" width="18" height="9" rx="2" fill="none" stroke="#202124" stroke-width="1.5"/>
+  <rect x="321" y="15" width="12" height="5" rx="1" fill="#202124"/>
+  <rect x="338" y="16" width="2" height="4" rx="1" fill="#202124"/>
+
+  <text x="16" y="48" class="small muted">Local notebook</text>
+  <text x="16" y="66" font-size="30" font-weight="900" class="text">Simple Notes</text>
+
+  <g fill="#FFFDF7" stroke="#DED8CC" stroke-width="1">
+    <circle cx="229" cy="70" r="22"/>
+    <circle cx="281" cy="70" r="22"/>
+    <circle cx="333" cy="70" r="22"/>
+  </g>
+  <g fill="none" stroke="#202124" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="226" cy="67" r="6"/>
+    <path d="M231 72l7 7"/>
+    <rect x="273" y="65" width="16" height="13" rx="2"/>
+    <path d="M272 62h18M277 69h8"/>
+    <circle cx="333" cy="70" r="4"/>
+    <path d="M333 58v4M333 78v4M321 70h4M341 70h4M325 62l3 3M338 75l3 3M341 62l-3 3M328 75l-3 3"/>
+  </g>
+
+  <g font-size="13" font-weight="800">
+    <rect x="16" y="103" width="51" height="34" rx="17" fill="#DDEFE8" stroke="#2E7D68"/>
+    <text x="32" y="112" fill="#2E7D68">All</text>
+    <rect x="78" y="103" width="79" height="34" rx="17" fill="#FFFDF7" stroke="#DED8CC"/>
+    <text x="94" y="112" class="text">Pinned</text>
+    <rect x="168" y="103" width="67" height="34" rx="17" fill="#FFFDF7" stroke="#DED8CC"/>
+    <text x="184" y="112" class="text">Home</text>
+    <rect x="246" y="103" width="64" height="34" rx="17" fill="#FFFDF7" stroke="#DED8CC"/>
+    <text x="262" y="112" class="text">Work</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="16" y="154" width="173" height="164" rx="12" fill="#E5F1E3" stroke="#A7C5A4"/>
+    <rect x="204" y="154" width="173" height="164" rx="12" fill="#FFF0C2" stroke="#E4C469"/>
+    <rect x="16" y="334" width="173" height="172" rx="12" fill="#E0EEF8" stroke="#A0C3DD"/>
+    <rect x="204" y="334" width="173" height="172" rx="12" fill="#FFE0D8" stroke="#E3A093"/>
+  </g>
+
+  <g class="text">
+    <text x="32" y="170" font-size="16" font-weight="800">Project plan</text>
+    <path d="M165 172h10l-2 8 5 5-4 4-5-5-8 2 8-14Z" fill="none" stroke="#2E7D68" stroke-width="1.8" stroke-linejoin="round"/>
+    <text x="220" y="170" font-size="16" font-weight="800">Grocery run</text>
+    <text x="32" y="350" font-size="16" font-weight="800">Reading list</text>
+    <text x="220" y="350" font-size="16" font-weight="800">Trip ideas</text>
+  </g>
+
+  <g class="body" fill="#3C4043">
+    <text x="32" y="212">Scope offline notes</text>
+    <text x="32" y="232">Draft release checklist</text>
+    <text x="220" y="212">[ ] Coffee beans</text>
+    <text x="220" y="232">[ ] Oat milk</text>
+    <text x="32" y="392">SQLite migrations</text>
+    <text x="32" y="412">Biometric prompts</text>
+    <text x="220" y="392">[ ] Book train tickets</text>
+    <text x="220" y="412">[ ] Pack charger</text>
+  </g>
+
+  <g font-size="12" font-weight="700" fill="#3C4043">
+    <rect x="32" y="270" width="52" height="24" rx="12" fill="none" stroke="#A7C5A4"/>
+    <text x="44" y="276">Work</text>
+    <rect x="220" y="270" width="56" height="24" rx="12" fill="none" stroke="#E4C469"/>
+    <text x="232" y="276">Home</text>
+    <rect x="32" y="456" width="52" height="24" rx="12" fill="none" stroke="#A0C3DD"/>
+    <text x="44" y="462">Ideas</text>
+    <rect x="220" y="456" width="56" height="24" rx="12" fill="none" stroke="#E3A093"/>
+    <text x="232" y="462">Home</text>
+  </g>
+
+  <g font-size="12" font-weight="700" class="muted">
+    <text x="32" y="294">May 21</text>
+    <text x="220" y="294">May 20</text>
+    <text x="32" y="480">May 18</text>
+    <text x="220" y="480">May 17</text>
+  </g>
+
+  <circle cx="38" cy="787" r="22" fill="#FFFDF7" stroke="#DED8CC"/>
+  <g fill="none" stroke="#202124" stroke-width="2" stroke-linecap="round">
+    <path d="M30 780h16M33 783h10v15H33zM35 777h6"/>
+  </g>
+  <circle cx="345" cy="780" r="32" fill="#2E7D68" filter="url(#shadow)"/>
+  <path d="M333 780h24M345 768v24" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  <rect x="139" y="833" width="115" height="4" rx="2" fill="#202124" opacity="0.34"/>
+</svg>
