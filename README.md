@@ -2,6 +2,15 @@
 
 Simple Notes is an offline-first Expo React Native notes app for Android. It stores notes locally in SQLite, supports text notes and checklist notes, and does not include sync, telemetry, analytics, ads, accounts, remote config, or network-backed features.
 
+## Screenshots
+
+<p>
+  <img src="docs/screenshots/home-light.svg" alt="Simple Notes light mode home screen with note grid, filters, archive, search, settings, trash, and create actions" width="190" />
+  <img src="docs/screenshots/editor-light.svg" alt="Simple Notes light mode checklist editor with save, pin, trash, color, and label controls" width="190" />
+  <img src="docs/screenshots/search-dark.svg" alt="Simple Notes dark mode search results screen showing local note search" width="190" />
+  <img src="docs/screenshots/settings-dark.svg" alt="Simple Notes dark mode settings screen with grid layout, biometric lock, lock timeout, telemetry, and sync settings" width="190" />
+</p>
+
 ## Run
 
 ```bash
