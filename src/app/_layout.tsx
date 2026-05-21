@@ -1,7 +1,8 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pressable, StyleSheet, Text, useColorScheme, View } from 'react-native';
 
 import { LoadingScreen, Screen } from '@/components/Screen';
@@ -9,6 +10,8 @@ import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { AppLockProvider, useAppLock } from '@/providers/AppLockProvider';
 import { NotesProvider, useNotes } from '@/providers/NotesProvider';
+
+void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -28,6 +31,12 @@ export default function RootLayout() {
 function RootContent() {
   const { isReady, error } = useNotes();
   const { isLocked } = useAppLock();
+
+  useEffect(() => {
+    if (isReady || error) {
+      void SplashScreen.hideAsync();
+    }
+  }, [error, isReady]);
 
   if (!isReady) {
     return <LoadingScreen />;
